@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 
 namespace Lab4
 {
@@ -13,8 +14,26 @@ namespace Lab4
             }
         }
 
-        // TODO
-        public char? EndingLetter { get; }
+        public bool IsEmpty
+        {
+            get
+            {
+                if (Persons.Count == 0)
+                {
+                    return true;
+                }
+                else return false;
+            }
+        }
+
+        // DONE
+        public char? EndingLetter {
+            get
+            {
+                // if Persons is SORTED
+                return Persons[0].FirstName[-1];
+            }
+        }
 
         public int Count => Persons.Count;
 
@@ -52,33 +71,38 @@ namespace Lab4
         }
 
 
-        // TODO
+        // DONE
         public static List<PersonGroup> GeneratePersonGroups(List<Person> persons, int distance)
         {
+            persons.Sort();
+
+            // list of groups
             var personGroups = new List<PersonGroup>();
 
-            // This isn't correct code. 
-            // It's is just a sample of how to interact with the classes.
-            var group1 = new PersonGroup();
-            var group2 = new PersonGroup();
+            // new group of people
+            var currentGroup = new PersonGroup();
 
-            foreach (var person in persons)
+            foreach (Person person in persons)
             {
-                if (person.FirstName.StartsWith("K"))
+
+                if (currentGroup.IsEmpty)
                 {
-                    group1.Persons.Add(person);
+                    currentGroup.Persons.Add(person);
+                }
+
+                else if (person.Distance(currentGroup[0]) <= distance)
+                {
+                    currentGroup.Persons.Add(person);
                 }
                 else
                 {
-                    group2.Persons.Add(person);
+                    personGroups.Add(currentGroup);
+                    currentGroup = new PersonGroup();
+                    currentGroup.Persons.Add(person);
                 }
             }
 
-            personGroups.Add(group1);
-            personGroups.Add(group2);
-
             return personGroups;
         }
-
     }
 }

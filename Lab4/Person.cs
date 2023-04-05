@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Lab4
 {
@@ -19,7 +20,7 @@ namespace Lab4
             Birthday = birthday;
         }
 
-        public int CompareTo([AllowNull] Person other)
+        public int CompareTo(Person other)
         {
             if( other == null)
             {
@@ -51,16 +52,12 @@ namespace Lab4
                 throw new NullReferenceException("Other Person must not be null");
             }
 
-
             // compute distance between first letters of first name
+            char letter1 = FirstName[0];
+            char letter2 = other.FirstName[0];
+            int difference = Math.Abs( char.ToUpper(letter1) - char.ToUpper(letter2));
 
-            char c = 'W';
-            char d = 'K';
-
-            int difference = Math.Abs( c - d );
-
-
-            return 1;
+            return difference;
         }
 
 
