@@ -31,7 +31,7 @@ namespace Lab4
             get
             {
                 // if Persons is SORTED
-                return Persons[0].FirstName[-1];
+                return Persons[-1].FirstName[0];
             }
         }
 
